@@ -1,0 +1,35 @@
+{
+  "name": "PWA Top Learn Application",
+  "short_name": "PWA App",
+  "description": "this is a PWA Application ",
+  "background_color": "#fff",
+  "theme_color": "#00c2c2",
+  "scope": ".",
+  "orientation": "portrait-primary",
+  "display": "standalone",
+  "dir": "ltr",
+  "lang": "en-US",
+  "start_url": "/index.html?utm_source=homescreen",
+  "icons": [
+    {
+      "src": "/assets/images/icons/icon-57x57.png",
+      "type": "image/png",
+      "sizes": "57x57"
+    },
+    {
+      "src": "/assets/images/icons/icon-76x76.png",
+      "type": "image/png",
+      "sizes": "76x76"
+    },
+    {
+      "src": "/assets/images/icons/icon-48x48.png",
+      "type": "image/png",
+      "sizes": "48x48"
+    },
+    {
+      "src": "/assets/images/icons/icon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
+  ]
+}
