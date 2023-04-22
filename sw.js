@@ -1,4 +1,10 @@
-const listPages = ["/", "/index.html", "/add.html"];
+const listPages = [
+  "/",
+  "/index.html",
+  "/add.html",
+  "/assets/images/icons/icon-512x512.png",
+  "/offline.html",
+];
 
 self.addEventListener("install", (event) => {
   console.log("service worker is install");
@@ -16,7 +22,6 @@ self.addEventListener("activated", () => {
 
 self.addEventListener("fetch", (event) => {
   console.log("service worker is fetching ....");
-
   const request = event.request;
 
   event.respondWith(
@@ -25,12 +30,26 @@ self.addEventListener("fetch", (event) => {
 
       return (
         res ||
-        fetch(request).then((resFetch) => {
-          caches.open("static-1").then((cache) => {
-            cache.put(request, resFetch);
-          });
-          return resFetch.clone();
-        })
+        fetch(request)
+          .then((resFetch) => {
+            caches.open("static-1").then((cache) => {
+              cache.put(request, resFetch);
+            });
+            return resFetch.clone();
+          })
+          .catch((err) =>
+            caches.open("statics-1").then((cache) => {
+              let regexImage =
+                /^https?:\/\/.*\/.*\.(png|gif|webp|jpeg|jpg)\??.*$/gim;
+
+              if (request.headers.accept.includes("text/html")) {
+                return cache.match("/offline.html");
+              }
+              if (request.url.match(regexImage)) {
+                return cache.match("/assets/images/icons/icon-512x512.png");
+              }
+            })
+          )
       );
     })
   );
