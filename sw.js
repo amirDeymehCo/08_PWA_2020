@@ -26,7 +26,7 @@ self.addEventListener("fetch", (event) => {
 
   event.respondWith(
     caches.match(request).then((res) => {
-      console.log(res);
+      console.log(request);
 
       return (
         res ||
@@ -37,8 +37,9 @@ self.addEventListener("fetch", (event) => {
             });
             return resFetch.clone();
           })
-          .catch((err) =>
-            caches.open("statics-1").then((cache) => {
+          .catch(() => {
+            console.log("offline mode");
+            return caches.open("statics-1").then((cache) => {
               let regexImage =
                 /^https?:\/\/.*\/.*\.(png|gif|webp|jpeg|jpg)\??.*$/gim;
 
@@ -48,8 +49,8 @@ self.addEventListener("fetch", (event) => {
               if (request.url.match(regexImage)) {
                 return cache.match("/assets/images/icons/icon-512x512.png");
               }
-            })
-          )
+            });
+          })
       );
     })
   );
