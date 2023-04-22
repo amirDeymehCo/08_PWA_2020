@@ -19,17 +19,19 @@ self.addEventListener("fetch", (event) => {
 
   const request = event.request;
 
-  caches.match(request).then((res) => {
-    if (!res) {
-      fetch(request).then((resFetch) => {
-        console.log(resFetch);
-        caches.open("static-1").then((cache) => {
-          cache.put(request, resFetch);
-        });
-        return resFetch.clone();
-      });
-    } else {
-      return res;
-    }
-  });
+  event.respondWith(
+    caches.match(request).then((res) => {
+      console.log(res);
+
+      return (
+        res ||
+        fetch(request).then((resFetch) => {
+          caches.open("static-1").then((cache) => {
+            cache.put(request, resFetch);
+          });
+          return resFetch.clone();
+        })
+      );
+    })
+  );
 });
