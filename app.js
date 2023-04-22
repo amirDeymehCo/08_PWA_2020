@@ -2,26 +2,25 @@ const btnInstall = document.querySelector("#btn-install-app");
 let eventPrompt = null;
 
 btnInstall.addEventListener("click", () => {
-  console.log("eventPrompt -------");
-  console.log(eventPrompt);
   if (eventPrompt) {
     eventPrompt.prompt();
     eventPrompt.userChoice.then((select) => {
-      console.log("select ---------");
-      console.log(select);
-      // if(select)
+      if (select.outcome === "accepted") {
+        console.log("application is installed");
+      } else {
+        console.log("not install");
+      }
     });
   }
 });
 
 window.addEventListener("beforeinstallprompt", (event) => {
-  console.log("ajdiuash dusahf ");
-  event.preventDefault();
   eventPrompt = event;
   return false;
 });
 
 if ("serviceWorker" in navigator) {
+  console.log(41545);
   window.addEventListener("load", () => {
     navigator.serviceWorker
       .register("sw.js")
